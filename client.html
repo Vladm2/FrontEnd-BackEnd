@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="client.css">
+    <title>Client Server Communication</title>
+</head>
+<body>
+    <div id="divall">
+    <div id="div1">
+        <h1>Register Student</h1>
+    <label for="first_name">First Name:</label>
+    <input type="text" id="first_name"><br>
+    <label for="last_name">Last Name:</label>   
+    <input type="text" id="last_name"><br>
+    <label for="student_id">Student ID:</label>
+    <input type="text" id="student_id"><br>
+    <label for="grade">Average Grade</label>
+    <input type="number" id="grade" name="grade" min="1" max="10"><br>
+    <button onclick="sendInfo()">Register</button>
+    </div>
+    <div id="div2">
+        <h1>Request Student Info</h1>
+        <label for="id_retrieve">Student ID</label>
+        <input type="text" id="id_retrieve">
+        <button onclick="retrieveInfo()">Request</button><br>
+        <p id="response"></p>
+    </div>
+    </div>
+    <script type="text/javascript">
+        function sendInfo(){
+            var first_name = document.getElementById("first_name").value;
+            var last_name = document.getElementById("last_name").value;
+            var student_id = document.getElementById("student_id").value;
+            var grade = document.getElementById("grade").value;
+            var xhttp = new XMLHttpRequest();
+            xhttp.onreadystatechange = function(){
+                console.log(this.responseText);
+            }
+            xhttp.open("POST", "http://127.0.0.1:8080/?first_name="+first_name+"&last_name="+last_name+"&student_id="+student_id+"&grade="+grade, true);
+            xhttp.send();
+        }
+        function retrieveInfo(){
+            var id_retrieve = document.getElementById("id_retrieve").value;
+            var xhttp = new XMLHttpRequest();
+            xhttp.onreadystatechange = function(){
+                document.getElementById("response").innerHTML = this.responseText;
+            }
+            xhttp.open("GET", "http://127.0.0.1:8080/?id_retrieve="+id_retrieve, true)
+            xhttp.send();
+        }
+    </script>
+
+</body>
+</html>
